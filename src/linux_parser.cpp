@@ -11,6 +11,31 @@ using std::string;
 using std::to_string;
 using std::vector;
 
+// DONE: Read and return CPU utilization
+float LinuxParser::CpuUtilization() {
+  string line, key;
+  string cpu1, cpu2, cpu3, cpu_idle, cpu5, cpu6, cpu7;
+  float active_cpu_time = 0.0f;
+  float idle_cpu_time = 0.0f;
+  std::ifstream filestream(kProcDirectory + kStatFilename);
+  if (filestream.is_open()) {
+    while (std::getline(filestream, line)) {
+      std::istringstream linestream(line);
+      while (linestream >> key >> cpu1 >> cpu2 >> cpu3 >> cpu_idle >> cpu5 >>
+             cpu6 >> cpu7) {
+        if (key == "cpu") {
+          active_cpu_time = std::stof(cpu1) + std::stof(cpu2) +
+                            std::stof(cpu3) + std::stof(cpu5) +
+                            std::stof(cpu6) + std::stof(cpu7);
+          idle_cpu_time = std::stof(cpu_idle);
+          return active_cpu_time / (active_cpu_time + idle_cpu_time);
+        }
+      }
+    }
+  }
+  return 0.;
+}
+
 // DONE: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() {
   string line, key, value;
@@ -145,9 +170,6 @@ long LinuxParser::ActiveJiffies() { return 0; }
 
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { return 0; }
-
-// TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
