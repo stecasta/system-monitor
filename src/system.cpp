@@ -29,9 +29,11 @@ vector<Process>& System::Processes() {
   processes_.clear();
   vector<int> pids = LinuxParser::Pids();
   for (int pid : pids) {
-    Process process{pid};
+    float cpu_usage = LinuxParser::CpuUtilization(pid);
+    Process process{pid, cpu_usage};
     processes_.push_back(process);
   }
+  std::sort(processes_.begin(), processes_.end());
   return processes_;
 }
 
