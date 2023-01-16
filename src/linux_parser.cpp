@@ -41,8 +41,8 @@ float LinuxParser::CpuUtilization() {
 float LinuxParser::CpuUtilization(int pid) {
   long system_up_time = UpTime();
   string line, el;
-  long utime, stime, elapsed_seconds, starttime = 0;
-  float cpu_usage, total_time = 0.;
+  long utime, stime, starttime = 0.;
+  float cpu_usage, total_time, start_sec, elapsed_seconds = 0.;
 
   std::ifstream filestream(kProcDirectory + std::to_string(pid) +
                            kStatFilename);
@@ -67,8 +67,8 @@ float LinuxParser::CpuUtilization(int pid) {
       i++;
     }
     total_time = (utime + stime) / sysconf(_SC_CLK_TCK);
-    starttime = starttime / sysconf(_SC_CLK_TCK);
-    elapsed_seconds = system_up_time - starttime;
+    start_sec = starttime / sysconf(_SC_CLK_TCK);
+    elapsed_seconds = system_up_time - start_sec;
     cpu_usage = total_time / elapsed_seconds;
   }
   return cpu_usage;
