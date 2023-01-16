@@ -16,21 +16,21 @@ using std::vector;
 // DONE: Read and return CPU utilization
 float LinuxParser::CpuUtilization() {
   string line, key;
-  string cpu1, cpu2, cpu3, cpu_idle, cpu5, cpu6, cpu7;
-  float active_cpu_time = 0.0f;
-  float idle_cpu_time = 0.0f;
+  string user, nice, system, idle, iowait, irq, softirq, steal, guest,
+      guest_nice;
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       std::istringstream linestream(line);
-      while (linestream >> key >> cpu1 >> cpu2 >> cpu3 >> cpu_idle >> cpu5 >>
-             cpu6 >> cpu7) {
+      while (linestream >> key >> user >> nice >> system >> idle >> iowait >>
+             irq >> softirq >> steal >> guest >> guest_nice) {
         if (key == "cpu") {
-          active_cpu_time = std::stof(cpu1) + std::stof(cpu2) +
-                            std::stof(cpu3) + std::stof(cpu5) +
-                            std::stof(cpu6) + std::stof(cpu7);
-          idle_cpu_time = std::stof(cpu_idle);
-          return active_cpu_time / (active_cpu_time + idle_cpu_time);
+          float total_idle = std::stol(idle) + std::stol(iowait);
+          float non_idle = std::stol(user) + std::stol(nice) +
+                           std::stol(system) + std::stol(softirq) +
+                           std::stol(irq) + std::stol(softirq) +
+                           std::stol(steal);
+          return non_idle / (total_idle + non_idle);
         }
       }
     }
