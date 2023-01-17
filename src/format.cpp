@@ -8,7 +8,6 @@
 using namespace std::chrono_literals;
 using std::string;
 
-// DONE: Complete this helper function
 string Format::ElapsedTime(long seconds) {
   long hours = seconds / 3600;
   long minutes = (seconds % 3600) / 60;

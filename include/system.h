@@ -10,16 +10,15 @@
 class System {
  public:
   System();
-  Processor& Cpu();                   // DONE: See src/system.cpp
-  std::vector<Process>& Processes();  // DONE: See src/system.cpp
-  float MemoryUtilization();          // DONE: See src/system.cpp
-  long UpTime();                      // DONE: See src/system.cpp
-  int TotalProcesses();               // DONE: See src/system.cpp
-  int RunningProcesses();             // DONE: See src/system.cpp
-  std::string Kernel();               // DONE: See src/system.cpp
-  std::string OperatingSystem();      // DONE: See src/system.cpp
+  Processor& Cpu();
+  std::vector<Process>& Processes();
+  float MemoryUtilization();
+  long UpTime();
+  int TotalProcesses();
+  int RunningProcesses();
+  std::string Kernel();
+  std::string OperatingSystem();
 
-  // DONE: Define any necessary private members
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {};

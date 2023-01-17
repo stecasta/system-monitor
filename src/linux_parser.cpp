@@ -13,7 +13,6 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-// DONE: Read and return CPU utilization
 float LinuxParser::CpuUtilization() {
   string line, key;
   string user, nice, system, idle, iowait, irq, softirq, steal, guest,
@@ -74,7 +73,6 @@ float LinuxParser::CpuUtilization(int pid) {
   return cpu_usage;
 }
 
-// DONE: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() {
   string line, key, value;
   float total_memory, free_memory = 0.;
@@ -93,7 +91,6 @@ float LinuxParser::MemoryUtilization() {
   return 1. - free_memory / total_memory;
 }
 
-// DONE: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
   string line, key, value;
   std::ifstream filestream(kProcDirectory + kStatFilename);
@@ -110,7 +107,6 @@ int LinuxParser::TotalProcesses() {
   return 0;
 }
 
-// DONE: Read and return the number of running processes
 int LinuxParser::RunningProcesses() {
   string line, key, value;
   std::ifstream filestream(kProcDirectory + kStatFilename);
@@ -127,7 +123,6 @@ int LinuxParser::RunningProcesses() {
   return 0;
 }
 
-// DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
   string line;
   string key;
@@ -150,7 +145,6 @@ string LinuxParser::OperatingSystem() {
   return value;
 }
 
-// DONE: An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
   string os, version, kernel;
   string line;
@@ -163,7 +157,6 @@ string LinuxParser::Kernel() {
   return kernel;
 }
 
-// DONE: Read and return the system uptime
 long LinuxParser::UpTime() {
   string uptime;
   string line;
@@ -176,7 +169,6 @@ long LinuxParser::UpTime() {
   return std::stol(uptime);
 }
 
-// DONE: Read and return the command associated with a process
 string LinuxParser::Command(int pid) {
   string cmd;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kCmdlineFilename);
@@ -186,7 +178,6 @@ string LinuxParser::Command(int pid) {
   return cmd;
 }
 
-// BONUS: Update this to use std::filesystem
 vector<int> LinuxParser::Pids() {
   vector<int> pids;
   DIR* directory = opendir(kProcDirectory.c_str());
@@ -206,21 +197,6 @@ vector<int> LinuxParser::Pids() {
   return pids;
 }
 
-// TODO: Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { return 0; }
-
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid [[maybe_unused]]) { return 0; }
-
-// TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
-
-// TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
-
-// DONE: Read and return the memory used by a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) {
   string line, key, value, ram;
   std::ifstream filestream(kProcDirectory + std::to_string(pid) +
@@ -239,7 +215,6 @@ string LinuxParser::Ram(int pid) {
   return ram;
 }
 
-// DONE: Read and return the user ID associated with a process
 string LinuxParser::Uid(int pid) {
   string line, key, value, uid;
   std::ifstream filestream(kProcDirectory + std::to_string(pid) +
@@ -258,7 +233,6 @@ string LinuxParser::Uid(int pid) {
   return uid;
 }
 
-// DONE: Read and return the user associated with a process
 string LinuxParser::User(string uid_in) {
   string line, x, user_name, uid;
   std::ifstream filestream(kPasswordPath);
@@ -276,7 +250,6 @@ string LinuxParser::User(string uid_in) {
   return user_name;
 }
 
-// DONE: Read and return the uptime of a process
 long LinuxParser::UpTime(int pid) {
   long system_up_time = UpTime();
   string line, el;
